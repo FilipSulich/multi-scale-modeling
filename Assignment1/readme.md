@@ -18,4 +18,5 @@ The `data/` folder includes the necessary `.csv` and `.json` files required to r
 3. Open a terminal and start Jupyter Notebook:
    ```bash
    jupyter notebook
-4. Run all cells in order. If you encounter issues, try “Kernel -> Restart & Run All”.
+4. Open the **`Assignment1.ipynb`** file.
+5. Run all cells in order. If you encounter issues, try “Kernel -> Restart & Run All”.
