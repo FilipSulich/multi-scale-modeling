@@ -18,19 +18,19 @@ In pseudocode, this can be described as:
 
 ```
    if(cell is pathogen) then
-       keep a constant chemical level (in the code its dchem[0] = 0.01)
+       produce the pathogen_chemical at a constant rate (in the code its dchem[0] = 0.01)
    else
        degrade the chemical level (in the code its dchem[0] = -0.001 * c->Chemical(0))
-       if(chemical_level > activation_threshold) then
-           produce the defense chemical (Chemical(1)) at some rate
+       if(pathogen_chemical_level > activation_threshold) then
+           produce the defense_chemical (Chemical(1)) at some rate
 ```
 
 2.  Then we need to transport the defense chemical throughout cells (in the `CelltoCellTransport` method):
 
 ```
    for each cell wall between cells c1 and c2:
-       transport the pathogen chemical (Chemical(0)) from c1 to c2 at a constant rate
-       transport the defense chemical (Chemical(1)) from c1 to c2 at the same rate
+       transport the pathogen_chemical (Chemical(0)) from c1 to c2 at a constant rate
+       transport the defense_chemical (Chemical(1)) from c1 to c2 at the same rate
 ```
 
 3.  We need to make the chemical influence the cell to increase the stifness of its wall (in the `CellHouseKeeping` method):
@@ -38,10 +38,10 @@ In pseudocode, this can be described as:
 ```
    if(cell is uninfected) then
        if (defense_chemical_level > threshold_one) then
-           increase cell wall stifness (for example by 1.5)
+           increase the cell wall stifness (for example by 1.5)
        else
             if(pathogen_chemical_level > threshold_two AND cell is not pathogen) then
-                decrease cell wall stifness (for exmaple 2.5 - pathogen_chemical_level)
+                decrease the cell wall stifness (for exmaple 2.5 - pathogen_chemical_level)
             else
                 set the cell wall stifness to some baseline value (in the code its stifness_inf = 2.5)
 ```
