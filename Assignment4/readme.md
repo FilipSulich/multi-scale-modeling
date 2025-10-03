@@ -21,10 +21,12 @@ First, there is a check to see if the cell is a pathogenic cell. If yes, its tar
 Then, if one of wall elements of the cell does not have a base length assigned yet, it is set up to 25. This ensures that initially all cells are of the same size.
 
 Next, weakening of the plant cell wall occurs based on how much the pathogen’s chemical is affecting it. 
-First, to calculate the effect we scale the concentration of the chemical in the cell, but set a maximum threshold of 1.2, so that the wall’s won’t get infinitely weak. 
+First, to calculate the effect we scale the concentration of the chemical in the cell, but set a maximum threshold of 1.2, so that the walls won’t get infinitely weak. 
 The baseline stiffness of the cell’s wall is 2.5, and if the pathogen’s chemical effect is too small (below or equal to 0.1), or the cell itself is a pathogenic cell the stiffness stays like that. However, if the cell isn’t pathogenic and the pathogen’s chemical effect is above 0.1, its wall stiffness gets reduced by the value of pathogen’s chemical effect.
 
 ## Exercise 3
+
+![Alt Sketch](./screenshots/sketch.jpg)
 
 ## Exercise 4
 
