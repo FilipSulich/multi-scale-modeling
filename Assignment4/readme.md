@@ -2,6 +2,10 @@
 
 ## Exercise 1
 
+Initial state
+
+![Alt Initial state](screenshots/initial.png)
+
 ## Exercise 2
 
 ## Exercise 3
