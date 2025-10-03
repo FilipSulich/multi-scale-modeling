@@ -2,17 +2,37 @@
 
 ## Exercise 1
 
-Initial state
+We start the simulation from the initial state and document it every hour for 4 hours. The screenshots can be seen below.
 
-![Alt Initial state][scale=0.5](./screenshots/initial.png)
+![Alt Initial state](./screenshots/initial.png)
+![Alt Initial state](./screenshots/after_1h.png)
+![Alt Initial state](./screenshots/after_2h.png)
+![Alt Initial state](./screenshots/after_3h.png)
+![Alt Initial state](./screenshots/after_4h.png)
 
-Throughout 4 hours of simulation, we can see the pathogen slowly infecting more and more cells with each hours. Cells adjacent to the infected area are weakened due to the pathogen’s secretion of cell wall–degrading chemicals. Cells further away remain healthy and unaffected, with intact cell walls
+During the 4 hours of simulation, we can see the pathogen slowly infecting the plant tissue. This is shown by the brown area expanding outward from the pathogen source (marked by a red point), infecting more cells with each passing hour. Cells next to the infected region are weakened by the pathogen’s secretion of cell wall–breaking chemicals, while cells farther away stay healthy, remaining green.
 
 ## Exercise 2
 
 ## Exercise 3
 
 ## Exercise 4
+
+We now adjust the diffusion coefficient by a factor of 10. The diffusion coefficient (D[0]) is currently set to 1e-05. First, we increase it to 1e-04. 
+
+![Alt Initial state](./screenshots/d_04_after_1h.png)
+![Alt Initial state](./screenshots/d_04_after_2h.png)
+![Alt Initial state](./screenshots/d_04_after_3h.png)
+![Alt Initial state](./screenshots/d_04_after_4h.png)
+
+Now we decrease it to 1e-06. 
+
+![Alt Initial state](./screenshots/d_06_after_1h.png)
+![Alt Initial state](./screenshots/d_06_after_2h.png)
+![Alt Initial state](./screenshots/d_06_after_3h.png)
+![Alt Initial state](./screenshots/d_06_after_4h.png)
+
+Diffusion coefficient spreads the chemical through tissue. Reducing it by 10 slows transport, so the secretion accumulates near the source. That results in a higher local concentration, but less infected cells furter away from the pathogen source. We can see it through more brown area around the red point, but more green (healthy) cells overall. To compare it to the previous simulation - after 4h we can see around the same infected cells as after 1h in the baseline model. Increasing the coefficient by 10 makes the chemical disperse broadly across all tissue. We can see how the brown area spreads faster and across more cells than before. Just after 1h we can see more infected cells than after 4h without adjusting it. However, the maximum concentration at the source will be lower than baseline (because secretion is quickly dispersed). 
 
 ## Exercise 5
 
