@@ -26,7 +26,7 @@ The baseline stiffness of the cell’s wall is 2.5, and if the pathogen’s chem
 
 ## Exercise 3
 
-![Alt Sketch](./screenshots/sketch.jpg)
+![Alt Sketch](./screenshots/sketch.JPG)
 
 ## Exercise 4
 
