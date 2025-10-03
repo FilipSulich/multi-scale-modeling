@@ -4,7 +4,7 @@
 
 Initial state
 
-![Alt Initial state](./screenshots/initial.png)
+![Alt Initial state][scale=0.5](./screenshots/initial.png)
 
 Throughout 4 hours of simulation, we can see the pathogen slowly infecting more and more cells with each hours. Cells adjacent to the infected area are weakened due to the pathogen’s secretion of cell wall–degrading chemicals. Cells further away remain healthy and unaffected, with intact cell walls
 
