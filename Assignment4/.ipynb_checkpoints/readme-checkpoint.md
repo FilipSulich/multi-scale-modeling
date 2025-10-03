@@ -4,7 +4,7 @@
 
 Initial state
 
-![Alt Initial state](screenshots/initial.png)
+![Alt Initial state](Assignment4/screenshots/initial.png)
 
 ## Exercise 2
 
