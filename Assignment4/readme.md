@@ -10,44 +10,38 @@
 
 ## Exercise 5
 
-```c++
+General idea is that we can introduce a second chemical (Chemical(1)), which is released by cells when they detect the chemical from bacteria/funghi. It acts as defense signal to the neighbouring uninfected plant cells that a pathogen is nearby and so they should strenghten their cell walls to prevent being infected.
 
-void Assignment::CellHouseKeeping(CellBase *c) {
-    // add cell behavioral rules here
-    if(c->CellType()==2){
-        c->EnlargeTargetArea(2);
-    }
+In pseudocode, this can be described as:
 
-    // initial cell length setup
-    double base_element_length = 25;
-    c->LoopWallElements([base_element_length](auto wallElementInfo){
-        if(std::isnan(wallElementInfo->getWallElement()->getBaseLength())){
-        wallElementInfo->getWallElement()->setBaseLength(base_element_length);
-        }
-    });
+1. We need to detect the pathogen chemicals (in the `CellDynamics` method):
 
+```
+   if(cell is pathogen) then
+       keep a constant chemical level (in the code its dchem[0] = 0.01)
+   else
+       degrade the chemical level (in the code its dchem[0] = -0.001 * c->Chemical(0))
+       if(chemical_level > activation_threshold) then
+           produce defense chemical (Chemical(1))
+```
 
-    //cell wall weakening happens here
-    double patho_chem_level = c->Chemical(0) / (0.5);
-    if (patho_chem_level > 1.2) {
-        patho_chem_level = 1.2;
-    }
-    double stiffness_inf = 2.5;
-    if(patho_chem_level>0.1 && c->CellType()!=2){
-        c->SetCellVeto(false);
-        stiffness_inf = 2.5 - (patho_chem_level);
-    c->LoopWallElements([stiffness_inf](auto wallElementInfo){
-        wallElementInfo->getWallElement()->setStiffness(stiffness_inf);
-    });
-    }
-    else{
-        c->LoopWallElements([stiffness_inf](auto wallElementInfo){
-        wallElementInfo->getWallElement()->setStiffness(stiffness_inf);
-        });
-        c->SetCellVeto(true);
-    }
+2.  Then we need to transport the defense chemical throughout cells (in the `CelltoCellTransport` method):
 
+```
+   for each cell wall between cells c1 and c2:
+       transport the pathogen chemical from c1 to c2 at a constant rate
+       transport the defense chemical from c1 to c2 at the same constant rate
+```
 
+3.  We need to make the chemical influence the cell to increase the stifness of its wall (in the `CellHouseKeeping` method):
 
-}
+```
+   if(cell is uninfected) then
+       if (defense_chemical_level > threshold_one) then
+           increase cell wall stifness (for example by 1.5)
+       else
+            if(pathogen_chemical_level > threshold_two AND cell is not pathogen) then
+                decrease cell wall stifness (for exmaple 2.5 - pathogen_chemical_level)
+            else
+                set the cell call stifness to some baseline value (in the code its stifness_inf = 2.5)
 ```
