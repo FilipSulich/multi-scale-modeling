@@ -10,7 +10,7 @@
 
 ## Exercise 5
 
-General idea is that we can introduce a second chemical (Chemical(1)), which is released by cells when they detect the chemical from bacteria/funghi. It acts as defense signal to the neighbouring uninfected plant cells that a pathogen is nearby and so they should strenghten their cell walls to prevent being infected.
+General idea is that we can introduce a second chemical (Chemical(1)), which is released by cells when they detect the pathogen chemical from bacteria/funghi. It acts as defense signal, which is sent to the neighbouring uninfected plant cells to inform that a pathogen is nearby and so they should strenghten their cell walls to prevent being infected.
 
 In pseudocode, this can be described as:
 
@@ -22,15 +22,15 @@ In pseudocode, this can be described as:
    else
        degrade the chemical level (in the code its dchem[0] = -0.001 * c->Chemical(0))
        if(chemical_level > activation_threshold) then
-           produce defense chemical (Chemical(1))
+           produce the defense chemical (Chemical(1)) at some rate
 ```
 
 2.  Then we need to transport the defense chemical throughout cells (in the `CelltoCellTransport` method):
 
 ```
    for each cell wall between cells c1 and c2:
-       transport the pathogen chemical from c1 to c2 at a constant rate
-       transport the defense chemical from c1 to c2 at the same constant rate
+       transport the pathogen chemical (Chemical(0)) from c1 to c2 at a constant rate
+       transport the defense chemical (Chemical(1)) from c1 to c2 at the same rate
 ```
 
 3.  We need to make the chemical influence the cell to increase the stifness of its wall (in the `CellHouseKeeping` method):
@@ -43,5 +43,5 @@ In pseudocode, this can be described as:
             if(pathogen_chemical_level > threshold_two AND cell is not pathogen) then
                 decrease cell wall stifness (for exmaple 2.5 - pathogen_chemical_level)
             else
-                set the cell call stifness to some baseline value (in the code its stifness_inf = 2.5)
+                set the cell wall stifness to some baseline value (in the code its stifness_inf = 2.5)
 ```
