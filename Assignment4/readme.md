@@ -28,6 +28,10 @@ The baseline stiffness of the cell’s wall is 2.5, and if the pathogen’s chem
 
 ![Alt Sketch](./screenshots/sketch.JPG)
 
+From cell dynamics we know that the pathogenic cells produce the chemical at a constant rate (dchem[0] = 0.1). At the same time for other cells the chemical is degraded (dchem[0] = -0.001 * c->Chemical(0)).
+
+From cell to cell transport and cell house keeping we know that the chemical will affect the wall stability of the cell. We calculate the size of the flux based on wall's length and diffusion coefficient (that is calculated based on stiffness). The flux is calculated here: phi = length * diffusionCoef * ( w->C2()->Chemical(0) - w->C1()->Chemical(0) ), and is later corrected based on cells' areas. So the cell wall's stability influences what exactly gets transported in between cells.
+
 ## Exercise 4
 
 We now adjust the diffusion coefficient by a factor of 10. The diffusion coefficient (D[0]) is currently set to 1e-05. First, we increase it to 1e-04. 
