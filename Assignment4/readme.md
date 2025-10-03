@@ -75,15 +75,15 @@ In pseudocode, this can be described as:
        transport the defense_chemical (Chemical(1)) from c1 to c2 at the same rate
 ```
 
-3.  We need to make the chemical influence the cell to increase the stifness of its wall (in the `CellHouseKeeping` method):
+3.  We need to make the chemical influence the cell to increase the stiffness of its wall (in the `CellHouseKeeping` method):
 
 ```
    if(cell is uninfected) then
        if (defense_chemical_level > threshold_one) then
-           increase the cell wall stifness (for example by 1.5)
+           increase the cell wall stiffness (for example by 1.5)
        else
             if(pathogen_chemical_level > threshold_two AND cell is not pathogen) then
-                decrease the cell wall stifness (for exmaple 2.5 - pathogen_chemical_level)
+                decrease the cell wall stiffness (for exmaple 2.5 - pathogen_chemical_level)
             else
-                set the cell wall stifness to some baseline value (in the code its stifness_inf = 2.5)
+                set the cell wall stiffness to some baseline value (in the code its stifness_inf = 2.5)
 ```
