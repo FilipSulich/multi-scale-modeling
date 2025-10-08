@@ -45,3 +45,93 @@ In pseudocode, this can be described as:
             else
                 set the cell wall stifness to some baseline value (in the code its stifness_inf = 2.5)
 ```
+
+# Assignment 4 - Plant Tissue Simulation
+
+## Exercise 1
+
+We start the simulation from the initial state and document it every hour for 4 hours. The screenshots can be seen below.
+
+![Alt Initial state](./screenshots/initial.png)
+![Alt Initial state](./screenshots/after_1h.png)
+![Alt Initial state](./screenshots/after_2h.png)
+![Alt Initial state](./screenshots/after_3h.png)
+![Alt Initial state](./screenshots/after_4h.png)
+
+During the 4 hours of simulation, we can see the pathogen slowly infecting the plant tissue. This is shown by the brown area expanding outward from the pathogen source (marked by a red point), infecting more cells with each passing hour. Cells next to the infected region are weakened by the pathogen’s secretion of cell wall–breaking chemicals, while cells farther away stay healthy, remaining green.
+
+## Exercise 2
+
+The CellHouseKeeping function updates states of cells in cycles.
+
+First, there is a check to see if the cell is a pathogenic cell. If yes, its target area is enlarged by a factor of 2. Because of that the pathogenic cells can grow larger and can potentially occupy more space than other cells.
+
+Then, if one of wall elements of the cell does not have a base length assigned yet, it is set up to 25. This ensures that initially all cells are of the same size.
+
+Next, weakening of the plant cell wall occurs based on how much the pathogen’s chemical is affecting it.
+First, to calculate the effect we scale the concentration of the chemical in the cell, but set a maximum threshold of 1.2, so that the walls won’t get infinitely weak.
+The baseline stiffness of the cell’s wall is 2.5, and if the pathogen’s chemical effect is too small (below or equal to 0.1), or the cell itself is a pathogenic cell the stiffness stays like that. However, if the cell isn’t pathogenic and the pathogen’s chemical effect is above 0.1, its wall stiffness gets reduced by the value of pathogen’s chemical effect.
+
+## Exercise 3
+
+![Alt Sketch](./screenshots/sketch.JPG)
+
+From cell dynamics we know that the pathogenic cells produce the chemical at a constant rate (dchem[0] = 0.1). At the same time for other cells the chemical is degraded (dchem[0] = -0.001 \* c->Chemical(0)).
+
+From cell to cell transport and cell house keeping we know that the chemical will affect the wall stability of the cell. We calculate the size of the flux based on wall's length and diffusion coefficient (that is calculated based on stiffness). The flux is calculated here: phi = length _ diffusionCoef _ ( w->C2()->Chemical(0) - w->C1()->Chemical(0) ), and is later corrected based on cells' areas. So the cell wall's stability influences what exactly gets transported in between cells.
+
+## Exercise 4
+
+We now adjust the diffusion coefficient by a factor of 10. The diffusion coefficient (D[0]) is currently set to 1e-05. First, we increase it to 1e-04.
+
+![Alt Initial state](./screenshots/d_04_after_1h.png)
+![Alt Initial state](./screenshots/d_04_after_2h.png)
+![Alt Initial state](./screenshots/d_04_after_3h.png)
+![Alt Initial state](./screenshots/d_04_after_4h.png)
+
+Now we decrease it to 1e-06.
+
+![Alt Initial state](./screenshots/d_06_after_1h.png)
+![Alt Initial state](./screenshots/d_06_after_2h.png)
+![Alt Initial state](./screenshots/d_06_after_3h.png)
+![Alt Initial state](./screenshots/d_06_after_4h.png)
+
+Diffusion coefficient spreads the chemical through tissue. Reducing it by 10 slows transport, so the secretion accumulates near the source. That results in a higher local concentration, but less infected cells furter away from the pathogen source. We can see it through more brown area around the red point, but more green (healthy) cells overall. To compare it to the previous simulation - after 4h we can see around the same number of infected cells as after 1h in the baseline model. Increasing the coefficient by 10 makes the chemical disperse broadly across all tissue. We can see how the brown area spreads faster and across more cells than before. Just after 1h we can see more infected cells than after 4h without adjusting it. However, the maximum concentration at the source will be lower than baseline (because secretion is quickly dispersed).
+
+## Exercise 5
+
+General idea is that we can introduce a second chemical (Chemical(1)), which is released by cells when they detect the pathogen chemical from bacteria/funghi. It acts as defense signal, which is sent to the neighbouring uninfected plant cells to inform that a pathogen is nearby and so they should strenghten their cell walls to prevent being infected.
+
+In pseudocode, this can be described as:
+
+1. We need to detect the pathogen chemicals (in the `CellDynamics` method):
+
+```
+   if(cell is pathogen) then
+       produce the pathogen_chemical at a constant rate (in the code its dchem[0] = 0.01)
+   else
+       degrade the chemical level (in the code its dchem[0] = -0.001 * c->Chemical(0))
+       if(pathogen_chemical_level > activation_threshold) then
+           produce the defense_chemical (Chemical(1)) at some rate
+```
+
+2.  Then we need to transport the defense chemical throughout cells (in the `CelltoCellTransport` method):
+
+```
+   for each cell wall between cells c1 and c2:
+       transport the pathogen_chemical (Chemical(0)) from c1 to c2 at a constant rate
+       transport the defense_chemical (Chemical(1)) from c1 to c2 at the same rate
+```
+
+3.  We need to make the chemical influence the cell to increase the stiffness of its wall (in the `CellHouseKeeping` method):
+
+```
+   if(cell is uninfected) then
+       if (defense_chemical_level > threshold_one) then
+           increase the cell wall stiffness (for example by 1.5)
+       else
+            if(pathogen_chemical_level > threshold_two AND cell is not pathogen) then
+                decrease the cell wall stiffness (for exmaple 2.5 - pathogen_chemical_level)
+            else
+                set the cell wall stiffness to some baseline value (in the code its stifness_inf = 2.5)
+```
