@@ -76,4 +76,7 @@ The RSA results show a clear hierarchical pattern of representational divergence
 ## General Conclusions
 
 - The use of anatomical connectivity in network design allowed us to create models reflecting species-specific visual processing characteristics.
-- Higher-order layers (V4, IT) were influenced by both learning and species-specific connectivity, as showed by RSA and t-SNE analysis. 
+- Higher-order layers (V4, IT) were influenced by both learning and species-specific connectivity, as showed by RSA and t-SNE analysis.
+
+  ## Note
+  To help with building the CNN model, we used the PyTorch documentation (https://docs.pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html). Additionally, in some sections we used ChatGPT to help with the code refactoring and debugging (prompt was "refactor this piece of code for optimality: {code_snippet}". 
